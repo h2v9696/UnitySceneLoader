@@ -1,0 +1,8 @@
+{
+  "name": "h2v.scene-manager",
+  "version": "0.0.1",
+  "displayName": "Scene Manager",
+  "description": "Scene loader and manager scene structure",
+  "unity": "2022.3",
+  "unityRelease": "0f1"
+}
