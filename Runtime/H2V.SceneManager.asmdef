@@ -1,7 +1,9 @@
 {
     "name": "H2V.SceneManager",
     "rootNamespace": "",
-    "references": [],
+    "references": [
+        "GUID:2f65b432db5d25c43977927c2ba8960e"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
