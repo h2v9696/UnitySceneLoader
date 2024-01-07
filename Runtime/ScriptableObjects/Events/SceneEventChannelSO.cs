@@ -1,9 +1,9 @@
 using UnityEngine;
 using H2V.ExtensionsCore.Events.ScriptableObjects;
 
-namespace H2V.SceneManager.ScriptableObjects.Events
+namespace H2V.SceneLoader.ScriptableObjects.Events
 {
-    [CreateAssetMenu(fileName = "SceneEvent", menuName = "H2V/SceneManager/Events/Scene SO Event Channel")]
+    [CreateAssetMenu(fileName = "SceneEvent", menuName = "H2V/Scene Manager/Events/Scene SO Event Channel")]
     public class SceneEventChannelSO : GenericEventChannelSO<SceneSO>
     {
         protected override void OnRaiseEvent(SceneSO sceneSO)

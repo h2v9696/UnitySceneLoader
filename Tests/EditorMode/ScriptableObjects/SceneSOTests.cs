@@ -1,7 +1,7 @@
 using NUnit.Framework;
-using H2V.SceneManager.ScriptableObjects;
+using H2V.SceneLoader.ScriptableObjects;
 
-namespace H2V.SceneManager.Tests.ScriptableObjects
+namespace H2V.SceneLoader.Tests.ScriptableObjects
 {
     [TestFixture, Category("Smoke Tests")]
     public class SceneSOTests
