@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3466745337313411032
+--- !u!1 &3641493560043693425
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,22 +8,22 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2342576492331068104}
-  - component: {fileID: 6199284760155037122}
+  - component: {fileID: 5706643575908019563}
+  - component: {fileID: 1930117540896384232}
   m_Layer: 0
-  m_Name: LinearSceneLoader
+  m_Name: ColdBoot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2342576492331068104
+--- !u!4 &5706643575908019563
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3466745337313411032}
+  m_GameObject: {fileID: 3641493560043693425}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -32,17 +32,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6199284760155037122
+--- !u!114 &1930117540896384232
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3466745337313411032}
+  m_GameObject: {fileID: 3641493560043693425}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 488a2f3b989406746a5febb2b660f670, type: 3}
+  m_Script: {fileID: 11500000, guid: f75367301a489984cb8820cd30ef3591, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _loadSceneEventChannel: {fileID: 11400000, guid: 03621e64d465bf54f902107ac37a887c, type: 2}
-  _sceneLoadedEventChannel: {fileID: 11400000, guid: 3a98693defe1c3743bd2a1458680a9e6, type: 2}
+  _thisSceneSO: {fileID: 0}
+  _sceneManagerSO: {fileID: 11400000, guid: 543d81face02e534da2f0316b4ba7752, type: 2}
+  _loadSceneEvent: {fileID: 11400000, guid: 777b5e4edf1e9fc4cb9bfe7f0cbe6153, type: 2}

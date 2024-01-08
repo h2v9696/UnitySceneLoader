@@ -9,7 +9,9 @@
         "H2V.ExtensionsCore",
         "H2V.ExtensionsCore.Editor",
         "Unity.Addressables",
-        "Unity.ResourceManager"
+        "Unity.ResourceManager",
+        "UniTask",
+        "H2V.SceneLoader.Editor"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
