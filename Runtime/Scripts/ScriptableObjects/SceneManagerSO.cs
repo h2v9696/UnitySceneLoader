@@ -9,7 +9,7 @@ namespace H2V.SceneLoader.ScriptableObjects
     public class SceneManagerSO : SceneSO
     {
         private const string SCENE_MANAGER_GUID = "c93932688e24e0843b61b851607ef2c6";
-        private const string SCENE_GROUP = "SceneScriptableObjects";
+        private const string SCENE_GROUP = "SceneManager_Scenes";
 
 #if UNITY_EDITOR
         protected override void OnValidate()

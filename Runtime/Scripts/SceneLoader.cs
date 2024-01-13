@@ -13,9 +13,13 @@ namespace H2V.SceneLoader
 {
     public class SceneLoader : MonoBehaviour
     {
-        [SerializeField] private SceneManagerBusSO _sceneManagerBus;
+        [SerializeField] private SceneUnloader _sceneUnloader;
+
+        [Header("Listen to")]
         [SerializeField] private SceneEventChannelSO _additiveLoadSceneEvent;
         [SerializeField] private SceneEventChannelSO _linearLoadSceneEvent;
+
+        [Header("Raise")]
         [SerializeField] private VoidEventChannelSO _sceneLoadedEventChannel;
 
         private List<SceneSO> _loadedScenes = new();
@@ -56,6 +60,7 @@ namespace H2V.SceneLoader
 
         private async UniTask<Scene> LoadScene(SceneSO sceneSO)
         {
+            Debug.Log($"Loading scene {sceneSO}");
             foreach (var dependentSceneSO in sceneSO.DependentScenes)
             {
                 await LoadScene(dependentSceneSO);
@@ -80,20 +85,11 @@ namespace H2V.SceneLoader
                 foreach (var dependentScene in scene.DependentScenes)
                 {
                     if (nextScene.DependentScenes.Contains(dependentScene)) continue;
-                    await UnloadScene(dependentScene);
+                    await _sceneUnloader.UnloadScene(dependentScene);
                 }
 
-                await UnloadScene(scene);
+                await _sceneUnloader.UnloadScene(scene);
             }
-
-            await Resources.UnloadUnusedAssets();
-        }
-
-        private async UniTask UnloadScene(SceneSO sceneSO)
-        {
-            if (!sceneSO.SceneReference.OperationHandle.IsValid()) return;
-            var handler = Addressables.UnloadSceneAsync(sceneSO.SceneReference.OperationHandle);
-            await UniTask.WaitUntil(() => handler.IsDone);
         }
     }
 }

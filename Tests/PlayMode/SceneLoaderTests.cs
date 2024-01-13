@@ -1,6 +1,5 @@
 using System.Collections;
 using Cysharp.Threading.Tasks;
-using H2V.ExtensionsCore.AssetReferences;
 using H2V.ExtensionsCore.Editor.Helpers;
 using H2V.ExtensionsCore.Events.ScriptableObjects;
 using H2V.SceneLoader.Editor;
@@ -33,8 +32,6 @@ namespace H2V.SceneLoader.Tests
         private const string SECOND_DEPENDENT_SCENE_GUID = "386cab2bf697cfc459ef0a06a0f03ed8";
         private const string THIRD_DEPENDENT_SCENE_GUID = "b6dbcf532a193754d810caa369505933";
 
-        private const string TEST_GROUP = "TestGroup"; 
-
         private SceneEventChannelSO _linearLoadSceneEvent;
         private SceneEventChannelSO _additiveLoadSceneEvent;
         private VoidEventChannelSO _sceneLoadedEvent;
@@ -61,44 +58,21 @@ namespace H2V.SceneLoader.Tests
             _sceneLoadedEvent = AssetFinder.FindAssetWithNameInPath<VoidEventChannelSO>(
                 SCENE_LOADED_EVENT, ASSET_FOLDER_PATH);
 
-            _firstDependentSceneSO = InitSceneSO(FIRST_DEPENDENT_SCENE_GUID);
-            _secondDependentSceneSO = InitSceneSO(SECOND_DEPENDENT_SCENE_GUID);
-            _thirdDependentSceneSO = InitSceneSO(THIRD_DEPENDENT_SCENE_GUID);
+            _firstDependentSceneSO = SceneTestHelper.InitSceneSO(FIRST_DEPENDENT_SCENE_GUID);
+            _secondDependentSceneSO = SceneTestHelper.InitSceneSO(SECOND_DEPENDENT_SCENE_GUID);
+            _thirdDependentSceneSO = SceneTestHelper.InitSceneSO(THIRD_DEPENDENT_SCENE_GUID);
 
-            _firstSceneSO = InitSceneSO(FIRST_SCENE_GUID, new[] {_firstDependentSceneSO});
-            AssetDatabase.DeleteAsset(_firstSceneSOPath);
-            AssetDatabase.CreateAsset(_firstSceneSO, _firstSceneSOPath);
-            AssetDatabase.SaveAssets();
-
-            _linearSceneSO = InitSceneSO(LINEAR_SCENE_GUID, new[] {_secondDependentSceneSO, _thirdDependentSceneSO});
-            _additiveSceneSO = InitSceneSO(ADDITIVE_SCENE_GUID, new[] {_firstDependentSceneSO, _thirdDependentSceneSO});
+            _firstSceneSO = SceneTestHelper.InitAndCreateSceneSOAsset(FIRST_SCENE_GUID, _firstSceneSOPath, true,
+                new[] {_firstDependentSceneSO});
+            _linearSceneSO = SceneTestHelper.InitSceneSO(LINEAR_SCENE_GUID, new[] {_secondDependentSceneSO, _thirdDependentSceneSO});
+            _additiveSceneSO = SceneTestHelper.InitSceneSO(ADDITIVE_SCENE_GUID, new[] {_firstDependentSceneSO, _thirdDependentSceneSO});
 
             _sceneManagerSO = AssetFinder.FindAssetWithNameInPath<SceneManagerSO>(
                 SCENE_MANAGER_SO, ASSET_FOLDER_PATH);
             _coldBootObject = AssetFinder.FindAssetWithNameInPath<GameObject>(
                 COLD_BOOT_PREFAB, ASSET_FOLDER_PATH);
         }
-
-        private SceneSO InitSceneSO(string sceneGuid, params SceneSO[] dependentScenes)
-        {
-            AddAssetToTempGroup(sceneGuid);
-            return CreateSceneSO(sceneGuid, dependentScenes);
-        }
-
-        private SceneSO CreateSceneSO(string sceneGuid, params SceneSO[] dependentScenes)
-        {
-            var sceneSO = ScriptableObject.CreateInstance<SceneSO>();
-            sceneSO.SetPrivateProperty("SceneReference",
-                new SceneAssetReference(sceneGuid), true);
-            sceneSO.SetPrivateArrayProperty("DependentScenes", dependentScenes, true);
-            return sceneSO;
-        }
-
-        private void AddAssetToTempGroup(string assetGuid)
-        {
-            AddressableExtensions.SetObjectToAddressableGroup(assetGuid, TEST_GROUP);
-        }
-
+        
         private void OnSceneLoaded()
         {
             _isSceneLoaded = true;
@@ -144,6 +118,7 @@ namespace H2V.SceneLoader.Tests
                 () => _sceneManagerSO.SceneReference.TryLoadScene(LoadSceneMode.Single)
             );
             _sceneLoadedEvent.EventRaised += OnSceneLoaded;
+            Debug.Log($"???");
             _additiveLoadSceneEvent.RaiseEvent(_firstSceneSO);
 
             yield return new WaitUntil(() => _isSceneLoaded);
@@ -153,23 +128,12 @@ namespace H2V.SceneLoader.Tests
 
         private void AssertSceneLoadedProperly(SceneSO sceneSO, string guid)
         {
-            var loadedScene = SceneManager.GetSceneByName(sceneSO.SceneReference.editorAsset.name);
-            Assert.IsTrue(loadedScene.isLoaded);
-            var scenePath = AssetDatabase.GUIDToAssetPath(guid);
-            Assert.AreEqual(loadedScene.path, scenePath);
- 
-            foreach (var scene in sceneSO.DependentScenes)
-            {
-                Assert.IsNotNull(scene.SceneReference.OperationHandle.Result);
-                var dependentScene = (SceneInstance) scene.SceneReference.OperationHandle.Result;
-                Assert.IsTrue(dependentScene.Scene.isLoaded);
-            }
+            SceneTestHelper.AssertSceneLoadedProperly(sceneSO, guid);
         }
 
         private void AssertSceneNotLoaded(SceneSO sceneSO)
         {
-            var loadedScene = SceneManager.GetSceneByName(sceneSO.SceneReference.editorAsset.name);
-            Assert.IsTrue(!loadedScene.isLoaded);
+            SceneTestHelper.AssertSceneNotLoaded(sceneSO);
         }
 
         [UnityTest]
@@ -243,7 +207,7 @@ namespace H2V.SceneLoader.Tests
             AssetDatabase.DeleteAsset(_firstSceneSOPath);
 
             var settings = AddressableAssetSettingsDefaultObject.Settings;
-            settings.RemoveGroup(settings.FindGroup(TEST_GROUP));
+            settings.RemoveGroup(settings.FindGroup(SceneTestHelper.TEST_GROUP));
             _sceneManagerSO.SceneReference.ReleaseHandle();
         }
     }
