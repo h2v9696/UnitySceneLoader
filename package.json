@@ -1,6 +1,6 @@
 {
   "name": "h2v.scene-loader",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "displayName": "Scene Loader",
   "description": "Scene loader and scene structure",
   "unity": "2022.3",
