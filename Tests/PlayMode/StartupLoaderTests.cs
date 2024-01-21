@@ -1,18 +1,11 @@
 using System.Collections;
-using Cysharp.Threading.Tasks;
-using H2V.ExtensionsCore.AssetReferences;
 using H2V.ExtensionsCore.Editor.Helpers;
 using H2V.ExtensionsCore.Events.ScriptableObjects;
-using H2V.SceneLoader.Editor;
 using H2V.SceneLoader.ScriptableObjects;
-using H2V.SceneLoader.ScriptableObjects.Events;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
-using UnityEditor.SceneManagement;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 

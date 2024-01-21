@@ -10,7 +10,6 @@ using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 
@@ -118,7 +117,6 @@ namespace H2V.SceneLoader.Tests
                 () => _sceneManagerSO.SceneReference.TryLoadScene(LoadSceneMode.Single)
             );
             _sceneLoadedEvent.EventRaised += OnSceneLoaded;
-            Debug.Log($"???");
             _additiveLoadSceneEvent.RaiseEvent(_firstSceneSO);
 
             yield return new WaitUntil(() => _isSceneLoaded);
