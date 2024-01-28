@@ -206,7 +206,7 @@ namespace H2V.SceneLoader.Tests
 
             var settings = AddressableAssetSettingsDefaultObject.Settings;
             settings.RemoveGroup(settings.FindGroup(SceneTestHelper.TEST_GROUP));
-            _sceneManagerSO.SceneReference.ReleaseHandle();
+            _sceneManagerSO.SceneReference.ReleaseAsset();
         }
     }
 }

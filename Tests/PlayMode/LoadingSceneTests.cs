@@ -56,8 +56,6 @@ namespace H2V.SceneLoader.Tests
 
             _loadingSceneSO = SceneTestHelper.InitAndCreateSceneSOAsset(LOADING_SCENE_GUID,
                 _loadingSceneSOPath);
-            _firstSceneSO = SceneTestHelper.InitAndCreateSceneSOAsset(FIRST_SCENE_GUID, _firstSceneSOPath, true,
-                new[] {_loadingSceneSO});
 
             _sceneManagerSO = AssetFinder.FindAssetWithNameInPath<SceneManagerSO>(
                 SCENE_MANAGER_SO, ASSET_FOLDER_PATH);
@@ -67,6 +65,13 @@ namespace H2V.SceneLoader.Tests
                 LOADING_SCENE_PREFAB, ASSET_FOLDER_PATH);
             var loadingSceneBehaviour = _loadingSceneObject.GetComponent<LoadingSceneBehaviour>();
             loadingSceneBehaviour.SetPrivateProperty("_thisSceneSO", _loadingSceneSO);
+        }
+
+        [SetUp]
+        public void Setup()
+        {
+            _firstSceneSO = SceneTestHelper.InitAndCreateSceneSOAsset(FIRST_SCENE_GUID, _firstSceneSOPath, true,
+                new[] {_loadingSceneSO});
         }
 
         private void OnSceneLoaded()
@@ -119,6 +124,7 @@ namespace H2V.SceneLoader.Tests
             _sceneUnloadedEvent.EventRaised -= OnSceneUnloaded;
             _sceneLoadedEvent.EventRaised -= OnSceneLoaded;
             _isSceneLoaded = false;
+            AssetDatabase.DeleteAsset(_firstSceneSOPath);
         }
 
         [OneTimeTearDown]
@@ -129,12 +135,11 @@ namespace H2V.SceneLoader.Tests
             var loadingSceneBehaviour = _loadingSceneObject.GetComponent<LoadingSceneBehaviour>();
             loadingSceneBehaviour.SetPrivateProperty("_thisSceneSO", null);
 
-            AssetDatabase.DeleteAsset(_firstSceneSOPath);
             AssetDatabase.DeleteAsset(_loadingSceneSOPath);
 
             var settings = AddressableAssetSettingsDefaultObject.Settings;
             settings.RemoveGroup(settings.FindGroup(SceneTestHelper.TEST_GROUP));
-            _sceneManagerSO.SceneReference.ReleaseHandle();
+            _sceneManagerSO.SceneReference.ReleaseAsset();
         }
     }
 }

@@ -35,6 +35,7 @@ namespace H2V.SceneLoader
             if (!sceneSO.SceneReference.OperationHandle.IsValid()) return;
             var handler = Addressables.UnloadSceneAsync(sceneSO.SceneReference.OperationHandle);
             await UniTask.WaitUntil(() => handler.IsDone);
+            sceneSO.SceneReference.ReleaseAsset();
             await Resources.UnloadUnusedAssets();
             _sceneUnloadedEventChannel.RaiseEvent();
         }

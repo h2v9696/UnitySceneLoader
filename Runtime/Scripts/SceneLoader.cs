@@ -60,7 +60,6 @@ namespace H2V.SceneLoader
 
         private async UniTask<Scene> LoadScene(SceneSO sceneSO)
         {
-            Debug.Log($"Loading scene {sceneSO}");
             foreach (var dependentSceneSO in sceneSO.DependentScenes)
             {
                 await LoadScene(dependentSceneSO);
