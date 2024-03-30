@@ -2,7 +2,9 @@ using H2V.SceneLoader.ScriptableObjects.Events;
 using H2V.SceneLoader.ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using H2V.ExtensionsCore.Editor.Helpers;
+#if UNITY_EDITOR
+    using H2V.ExtensionsCore.Editor.Helpers;
+#endif
 using System.Linq;
 using Cysharp.Threading.Tasks;
 
@@ -16,6 +18,7 @@ namespace H2V.SceneLoader.Editor
 
         private bool _isColdBoot;
 
+#if UNITY_EDITOR
         private void OnValidate()
         {
             if (!gameObject.activeInHierarchy) return;
@@ -38,5 +41,6 @@ namespace H2V.SceneLoader.Editor
             await _sceneManagerSO.SceneReference.TryLoadScene(LoadSceneMode.Single);
             _loadSceneEvent.RaiseEvent(_thisSceneSO);
         }
+#endif
     }
 }

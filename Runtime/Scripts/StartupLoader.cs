@@ -51,7 +51,7 @@ namespace H2V.SceneLoader
                 SCENE_SCRIPTABLE_OBJECTS_GROUP, true);
             _linearLoadSceneEventChannelSO = new ScriptableObjectAssetReference<SceneEventChannelSO>(
                 LOAD_SCENE_EVENT_GUID);
-#endif
         }
+#endif
     }
 }
