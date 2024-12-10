@@ -38,12 +38,12 @@ namespace H2V.SceneLoader
 
         private void LinearLoadSceneRequested(SceneSO sceneSO)
         {
-            _ = UnloadThenLoadAllScenes(sceneSO);
+            UnloadThenLoadAllScenes(sceneSO).Forget();
         }
 
         private void AdditiveLoadSceneRequested(SceneSO sceneSO)
         {
-            _ = LoadAllScenes(sceneSO);
+            LoadAllScenes(sceneSO).Forget();
         }
 
         private async UniTask UnloadThenLoadAllScenes(SceneSO mainScene)
@@ -65,8 +65,6 @@ namespace H2V.SceneLoader
                 await LoadScene(dependentSceneSO);
             }
 
-            if (sceneSO.SceneReference.OperationHandle.IsValid())
-                return ((SceneInstance) sceneSO.SceneReference.OperationHandle.Result).Scene;
             return await sceneSO.SceneReference.TryLoadScene(LoadSceneMode.Additive);
         }
 

@@ -27,7 +27,7 @@ namespace H2V.SceneLoader
 
         private void Start()
         {
-            _ = LoadSceneAsync();
+            LoadSceneAsync().Forget();
         }
 
         private async UniTask LoadSceneAsync()
@@ -37,21 +37,5 @@ namespace H2V.SceneLoader
             loadSceneEvent.RaiseEvent(_firstSceneSO);
             await SceneManager.UnloadSceneAsync(0);
         }
-
-#if UNITY_EDITOR
-        private const string SCENE_SCRIPTABLE_OBJECTS_GROUP = "SceneManager_EventScriptableObjects";
-        private const string LOAD_SCENE_EVENT_GUID = "777b5e4edf1e9fc4cb9bfe7f0cbe6153";
-
-        private void Reset()
-        {
-            EditorBuildSettings.scenes = new[] { new EditorBuildSettingsScene(this.gameObject.scene.path,
-                true) };
-            
-            AddressableExtensions.SetObjectToAddressableGroup(LOAD_SCENE_EVENT_GUID,
-                SCENE_SCRIPTABLE_OBJECTS_GROUP, true);
-            _linearLoadSceneEventChannelSO = new ScriptableObjectAssetReference<SceneEventChannelSO>(
-                LOAD_SCENE_EVENT_GUID);
-        }
-#endif
     }
 }

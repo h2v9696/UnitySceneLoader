@@ -27,7 +27,7 @@ namespace H2V.SceneLoader
 
         private void UnloadSceneRequested(SceneSO sceneSO)
         {
-            _ = UnloadScene(sceneSO);
+            UnloadScene(sceneSO).Forget();
         }
 
         public async UniTask UnloadScene(SceneSO sceneSO)
