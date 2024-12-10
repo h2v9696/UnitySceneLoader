@@ -33,6 +33,11 @@ namespace H2V.SceneLoader.Editor
 
         private async UniTask Awake()
         {
+            var isManagerSceneLoaded = SceneManager.GetSceneByName(_sceneManagerSO.SceneReference.editorAsset.name).isLoaded;
+            if (!isManagerSceneLoaded)
+            {
+                _sceneManagerSO.SceneReference.ReleaseAsset();
+            }
             _isColdBoot = 
                 !SceneManager.GetSceneByName(_sceneManagerSO.SceneReference.editorAsset.name).isLoaded
                 && !_sceneManagerSO.SceneReference.OperationHandle.IsValid();
