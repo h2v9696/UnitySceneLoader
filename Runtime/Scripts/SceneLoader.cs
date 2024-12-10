@@ -77,16 +77,22 @@ namespace H2V.SceneLoader
 
         private async UniTask UnloadPreviousScenes(SceneSO nextScene)
         {
+            var markRemoveScenes = new List<SceneSO>();
             foreach (var scene in _loadedScenes)
             {
                 foreach (var dependentScene in scene.DependentScenes)
                 {
                     if (nextScene.DependentScenes.Contains(dependentScene)) continue;
-                    await _sceneUnloader.UnloadScene(dependentScene);
+                    await _sceneUnloader.UnloadScene(dependentScene, false);
+                    markRemoveScenes.Add(dependentScene);
                 }
 
-                await _sceneUnloader.UnloadScene(scene);
+                await _sceneUnloader.UnloadScene(scene, false);
+                markRemoveScenes.Add(scene);
             }
+
+            _loadedScenes.RemoveAll(scene => markRemoveScenes.Contains(scene));
+            markRemoveScenes.Clear();
         }
     }
 }

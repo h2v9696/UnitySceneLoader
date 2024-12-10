@@ -30,13 +30,14 @@ namespace H2V.SceneLoader
             UnloadScene(sceneSO).Forget();
         }
 
-        public async UniTask UnloadScene(SceneSO sceneSO)
+        public async UniTask UnloadScene(SceneSO sceneSO, bool isUnloadUnused = true)
         {
             if (!sceneSO.SceneReference.OperationHandle.IsValid()) return;
             var handler = Addressables.UnloadSceneAsync(sceneSO.SceneReference.OperationHandle);
             await UniTask.WaitUntil(() => handler.IsDone);
             sceneSO.SceneReference.ReleaseAsset();
-            await Resources.UnloadUnusedAssets();
+            if (isUnloadUnused)
+                await Resources.UnloadUnusedAssets();
             _sceneUnloadedEventChannel.RaiseEvent();
         }
     }

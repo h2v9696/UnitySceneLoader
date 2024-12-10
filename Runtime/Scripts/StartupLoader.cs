@@ -5,11 +5,6 @@ using UnityEngine.SceneManagement;
 using H2V.ExtensionsCore.AssetReferences;
 using H2V.SceneLoader.ScriptableObjects.Events;
 
-#if UNITY_EDITOR
-    using UnityEditor;
-    using H2V.ExtensionsCore.Editor.Helpers;
-#endif
-
 namespace H2V.SceneLoader
 {
     /// <summary>
@@ -19,8 +14,8 @@ namespace H2V.SceneLoader
     /// </summary>
     public class StartupLoader : MonoBehaviour
     {
-        [SerializeField] private SceneSO _managerSceneSO;
-        [SerializeField] private SceneSO _firstSceneSO;
+        [SerializeField] private ScriptableObjectAssetReference<SceneSO> _managerSceneSOReference;
+        [SerializeField] private ScriptableObjectAssetReference<SceneSO> _firstSceneSOReference;
 
         [Header("Raise")]
         [SerializeField] private ScriptableObjectAssetReference<SceneEventChannelSO> _linearLoadSceneEventChannelSO;
@@ -32,9 +27,11 @@ namespace H2V.SceneLoader
 
         private async UniTask LoadSceneAsync()
         {
-            await _managerSceneSO.SceneReference.TryLoadScene(LoadSceneMode.Additive);
             var loadSceneEvent = await _linearLoadSceneEventChannelSO.TryLoadAsset();
-            loadSceneEvent.RaiseEvent(_firstSceneSO);
+            var managerSceneSO = await _managerSceneSOReference.TryLoadAsset();
+            var firstScene = await _firstSceneSOReference.TryLoadAsset();
+            await managerSceneSO.SceneReference.TryLoadScene(LoadSceneMode.Additive);
+            loadSceneEvent.RaiseEvent(firstScene);
             await SceneManager.UnloadSceneAsync(0);
         }
     }
