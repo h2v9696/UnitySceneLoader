@@ -18,6 +18,8 @@ namespace H2V.SceneLoader
         [Header("Listen to")]
         [SerializeField] private SceneEventChannelSO _additiveLoadSceneEvent;
         [SerializeField] private SceneEventChannelSO _linearLoadSceneEvent;
+        [SerializeField] private SceneEventChannelSO _loadAllScenesEvent;
+        [SerializeField] private SceneEventChannelSO _unloadPreviousScenesEvent;
 
         [Header("Raise")]
         [SerializeField] private VoidEventChannelSO _sceneLoadedEventChannel;
@@ -27,13 +29,30 @@ namespace H2V.SceneLoader
         private void OnEnable()
         {
             _linearLoadSceneEvent.EventRaised += LinearLoadSceneRequested;
+            _loadAllScenesEvent.EventRaised += LoadAllScenesRequested;
             _additiveLoadSceneEvent.EventRaised += AdditiveLoadSceneRequested;
+            _unloadPreviousScenesEvent.EventRaised += UnloadPreviousScenesRequested;
         }
 
         private void OnDisable()
         {
             _linearLoadSceneEvent.EventRaised -= LinearLoadSceneRequested;
+            _loadAllScenesEvent.EventRaised -= LoadAllScenesRequested;
             _additiveLoadSceneEvent.EventRaised -= AdditiveLoadSceneRequested;
+            _unloadPreviousScenesEvent.EventRaised -= UnloadPreviousScenesRequested;
+        }
+
+        private void LoadAllScenesRequested(SceneSO sceneSO)
+        {
+            LoadScene(sceneSO).ContinueWith(scene =>
+            {
+                OnSceneLoaded(sceneSO, scene);
+            }).Forget();
+        }
+
+        private void UnloadPreviousScenesRequested(SceneSO sceneSO)
+        {
+            UnloadPreviousScenes(sceneSO).Forget();
         }
 
         private void LinearLoadSceneRequested(SceneSO sceneSO)
@@ -80,6 +99,7 @@ namespace H2V.SceneLoader
             var markRemoveScenes = new List<SceneSO>();
             foreach (var scene in _loadedScenes)
             {
+                if (scene == nextScene) continue;
                 foreach (var dependentScene in scene.DependentScenes)
                 {
                     if (nextScene.DependentScenes.Contains(dependentScene)) continue;

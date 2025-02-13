@@ -13,7 +13,7 @@ OcclusionCullingSettings:
 --- !u!104 &2
 RenderSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 10
   m_Fog: 0
   m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   m_FogMode: 3
@@ -38,13 +38,12 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 12
-  m_GIWorkflowMode: 1
+  serializedVersion: 13
+  m_BakeOnSceneLoad: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -67,9 +66,6 @@ LightmapSettings:
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
     m_TextureCompression: 1
-    m_FinalGather: 0
-    m_FinalGatherFiltering: 1
-    m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
     m_BakeBackend: 1
@@ -153,9 +149,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sceneUnloader: {fileID: 1694561646}
-  _additiveLoadSceneEvent: {fileID: 11400000, guid: 0fa93ae9f2a7a5c4cb119b67e48c0f28, type: 2}
-  _linearLoadSceneEvent: {fileID: 11400000, guid: 777b5e4edf1e9fc4cb9bfe7f0cbe6153, type: 2}
-  _sceneLoadedEventChannel: {fileID: 11400000, guid: 27cd32bed5255924c843f4c8fb695df3, type: 2}
+  _additiveLoadSceneEvent: {fileID: 11400000, guid: 0fa93ae9f2a7a5c4cb119b67e48c0f28,
+    type: 2}
+  _linearLoadSceneEvent: {fileID: 11400000, guid: 777b5e4edf1e9fc4cb9bfe7f0cbe6153,
+    type: 2}
+  _loadAllScenesEvent: {fileID: 11400000, guid: c05a5adfaa68622429bd68dd3f47b06b,
+    type: 2}
+  _unloadPreviousScenesEvent: {fileID: 11400000, guid: 4372cb2b287916c41906a72ed566db3d,
+    type: 2}
+  _sceneLoadedEventChannel: {fileID: 11400000, guid: 27cd32bed5255924c843f4c8fb695df3,
+    type: 2}
 --- !u!4 &888154401
 Transform:
   m_ObjectHideFlags: 0
@@ -201,7 +204,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _unloadSceneEvent: {fileID: 11400000, guid: a6b49c76d6fe08845a4eaa7f478fd075, type: 2}
-  _sceneUnloadedEventChannel: {fileID: 11400000, guid: 7de82bc468af5f3438de461575874234, type: 2}
+  _sceneUnloadedEventChannel: {fileID: 11400000, guid: 7de82bc468af5f3438de461575874234,
+    type: 2}
 --- !u!4 &1694561647
 Transform:
   m_ObjectHideFlags: 0

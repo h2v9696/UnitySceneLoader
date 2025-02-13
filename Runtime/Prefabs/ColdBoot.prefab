@@ -46,4 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _thisSceneSO: {fileID: 0}
   _sceneManagerSO: {fileID: 11400000, guid: 543d81face02e534da2f0316b4ba7752, type: 2}
-  _loadSceneEvent: {fileID: 11400000, guid: 777b5e4edf1e9fc4cb9bfe7f0cbe6153, type: 2}
+  _loadSceneEvent: {fileID: 11400000, guid: c05a5adfaa68622429bd68dd3f47b06b, type: 2}
